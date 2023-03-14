@@ -839,10 +839,10 @@ spec:
       restartPolicy: Always
       volumes:
         - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/grafana/grafana.ini
+            path: ./opentelemetry-demo/src/grafana/grafana.ini
           name: grafana-hostpath0
         - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/grafana/provisioning
+            path: ./opentelemetry-demo/src/grafana/provisioning
           name: grafana-hostpath1
 status: {}
 ---
@@ -1159,10 +1159,10 @@ spec:
       restartPolicy: Always
       volumes:
         - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/otelcollector/otelcol-config.yml
+            path: ./opentelemetry-demo/src/otelcollector/otelcol-config.yml
           name: otelcol-hostpath0
         - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/otelcollector/otelcol-config-extras.yml
+            path: ./opentelemetry-demo/src/otelcollector/otelcol-config-extras.yml
           name: otelcol-hostpath1
 status: {}
 ---
@@ -1387,7 +1387,7 @@ spec:
       restartPolicy: Always
       volumes:
         - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/prometheus/prometheus-config.yaml
+            path: ./opentelemetry-demo/src/prometheus/prometheus-config.yaml
           name: prometheus-hostpath0
 status: {}
 ---
