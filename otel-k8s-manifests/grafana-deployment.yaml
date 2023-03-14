@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes=configMap -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   creationTimestamp: null
   labels:
@@ -18,7 +18,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes=configMap -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       creationTimestamp: null
       labels:
@@ -35,15 +35,19 @@ spec:
               memory: "78643200"
           volumeMounts:
             - mountPath: /etc/grafana/grafana.ini
-              name: grafana-hostpath0
+              name: grafana-cm0
+              subPath: grafana.ini
             - mountPath: /etc/grafana/provisioning
-              name: grafana-hostpath1
+              name: grafana-cm1
       restartPolicy: Always
       volumes:
-        - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/grafana/grafana.ini
-          name: grafana-hostpath0
-        - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/grafana/provisioning
-          name: grafana-hostpath1
+        - configMap:
+            items:
+              - key: grafana.ini
+                path: grafana.ini
+            name: grafana-cm0
+          name: grafana-cm0
+        - configMap:
+            name: grafana-cm1
+          name: grafana-cm1
 status: {}

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes=configMap -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   creationTimestamp: null
   labels:
@@ -18,7 +18,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes=configMap -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       creationTimestamp: null
       labels:
@@ -44,10 +44,14 @@ spec:
               memory: "314572800"
           volumeMounts:
             - mountPath: /etc/prometheus/prometheus-config.yaml
-              name: prometheus-hostpath0
+              name: prometheus-cm0
+              subPath: prometheus-config.yaml
       restartPolicy: Always
       volumes:
-        - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/prometheus/prometheus-config.yaml
-          name: prometheus-hostpath0
+        - configMap:
+            items:
+              - key: prometheus-config.yaml
+                path: prometheus-config.yaml
+            name: prometheus-cm0
+          name: prometheus-cm0
 status: {}
