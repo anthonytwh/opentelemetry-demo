@@ -1009,6 +1009,8 @@ spec:
           livenessProbe:
             exec:
               command:
+                - sh
+                - -c
                 - nc -z kafka 9092
             failureThreshold: 10
             initialDelaySeconds: 10
