@@ -9,7 +9,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -24,7 +24,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -57,7 +57,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -72,7 +72,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -109,7 +109,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -129,7 +129,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -144,7 +144,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -179,7 +179,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -199,7 +199,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -214,7 +214,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -263,7 +263,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -283,7 +283,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -298,7 +298,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -327,7 +327,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -347,7 +347,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -362,7 +362,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -395,7 +395,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -415,7 +415,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -430,7 +430,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -476,7 +476,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -499,7 +499,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -514,7 +514,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -550,7 +550,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -570,7 +570,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -585,7 +585,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -618,7 +618,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -633,7 +633,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -692,7 +692,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -707,7 +707,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -757,7 +757,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -780,7 +780,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -796,11 +796,41 @@ spec:
 status:
   loadBalancer: {}
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: otel
+  labels:
+    io.kompose.service: grafana-claim0
+  name: grafana-claim0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: otel
+  labels:
+    io.kompose.service: grafana-claim1
+  name: grafana-claim1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -816,7 +846,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -833,24 +863,24 @@ spec:
               memory: "78643200"
           volumeMounts:
             - mountPath: /etc/grafana/grafana.ini
-              name: grafana-hostpath0
+              name: grafana-claim0
             - mountPath: /etc/grafana/provisioning
-              name: grafana-hostpath1
+              name: grafana-claim1
       restartPolicy: Always
       volumes:
-        - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/grafana/grafana.ini
-          name: grafana-hostpath0
-        - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/grafana/provisioning
-          name: grafana-hostpath1
+        - name: grafana-claim0
+          persistentVolumeClaim:
+            claimName: grafana-claim0
+        - name: grafana-claim1
+          persistentVolumeClaim:
+            claimName: grafana-claim1
 status: {}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -870,7 +900,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -885,7 +915,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -920,7 +950,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -943,7 +973,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -958,7 +988,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -1003,7 +1033,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1023,7 +1053,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1038,7 +1068,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -1079,7 +1109,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1110,11 +1140,41 @@ spec:
     matchLabels:
       io.kompose.network/opentelemetry-demo: "true"
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: otel
+  labels:
+    io.kompose.service: otelcol-claim0
+  name: otelcol-claim0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: otel
+  labels:
+    io.kompose.service: otelcol-claim1
+  name: otelcol-claim1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1130,7 +1190,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -1153,24 +1213,24 @@ spec:
               memory: "131072e3"
           volumeMounts:
             - mountPath: /etc/otelcol-config.yml
-              name: otelcol-hostpath0
+              name: otelcol-claim0
             - mountPath: /etc/otelcol-config-extras.yml
-              name: otelcol-hostpath1
+              name: otelcol-claim1
       restartPolicy: Always
       volumes:
-        - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/otelcollector/otelcol-config.yml
-          name: otelcol-hostpath0
-        - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/otelcollector/otelcol-config-extras.yml
-          name: otelcol-hostpath1
+        - name: otelcol-claim0
+          persistentVolumeClaim:
+            claimName: otelcol-claim0
+        - name: otelcol-claim1
+          persistentVolumeClaim:
+            claimName: otelcol-claim1
 status: {}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1199,7 +1259,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1214,7 +1274,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -1249,7 +1309,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1269,7 +1329,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1284,7 +1344,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -1321,7 +1381,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1337,11 +1397,26 @@ spec:
 status:
   loadBalancer: {}
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: otel
+  labels:
+    io.kompose.service: prometheus-claim0
+  name: prometheus-claim0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1357,7 +1432,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -1383,19 +1458,19 @@ spec:
               memory: "314572800"
           volumeMounts:
             - mountPath: /etc/prometheus/prometheus-config.yaml
-              name: prometheus-hostpath0
+              name: prometheus-claim0
       restartPolicy: Always
       volumes:
-        - hostPath:
-            path: /home/anthony/tigera/opentelemetry-demo/opentelemetry-demo/src/prometheus/prometheus-config.yaml
-          name: prometheus-hostpath0
+        - name: prometheus-claim0
+          persistentVolumeClaim:
+            claimName: prometheus-claim0
 status: {}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1415,7 +1490,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1430,7 +1505,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -1463,7 +1538,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1483,7 +1558,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1498,7 +1573,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -1543,7 +1618,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1563,7 +1638,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1578,7 +1653,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -1600,7 +1675,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1620,7 +1695,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
@@ -1635,7 +1710,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
         kompose.version: 1.28.0 (c4137012e)
       namespace: otel
       labels:
@@ -1668,7 +1743,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes hostPath -o otel-k8s-manifests/
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
     kompose.version: 1.28.0 (c4137012e)
   namespace: otel
   labels:
