@@ -974,6 +974,7 @@ metadata:
     io.kompose.service: kafka
   name: kafka
 spec:
+  hostname: kafka
   replicas: 1
   selector:
     matchLabels:
@@ -1021,27 +1022,27 @@ spec:
       restartPolicy: Always
 status: {}
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes=configMap -o otel-k8s-manifests/
-    kompose.version: 1.28.0 (c4137012e)
-  namespace: otel
-  labels:
-    io.kompose.service: kafka
-  name: kafka
-spec:
-  ports:
-    - name: 'kafka'
-      port: 9092
-      targetPort: 9092
-  selector:
-    io.kompose.service: kafka
-  type: ClusterIP
-status:
-  loadBalancer: {}
----
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   annotations:
+#     kompose.cmd: kompose convert -f docker-compose-resolved.yml --volumes=configMap -o otel-k8s-manifests/
+#     kompose.version: 1.28.0 (c4137012e)
+#   namespace: otel
+#   labels:
+#     io.kompose.service: kafka
+#   name: kafka
+# spec:
+#   ports:
+#     - name: 'kafka'
+#       port: 9092
+#       targetPort: 9092
+#   selector:
+#     io.kompose.service: kafka
+#   type: ClusterIP
+# status:
+#   loadBalancer: {}
+# ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
