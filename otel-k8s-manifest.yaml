@@ -3083,11 +3083,6 @@ spec:
             - --config=/etc/otelcol-config-extras.yml
           image: otel/opentelemetry-collector-contrib:0.70.0
           name: otel-col
-          ports:
-            - containerPort: 4317
-            - containerPort: 4318
-            - containerPort: 9464
-            - containerPort: 8888
           resources:
             limits:
               memory: "131072e3"
