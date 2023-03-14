@@ -1,0 +1,1753 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: accountingservice
+  name: accountingservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: accountingservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: accountingservice
+    spec:
+      containers:
+        - env:
+            - name: KAFKA_SERVICE_ADDR
+              value: kafka:9092
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: accountingservice
+          image: ghcr.io/open-telemetry/demo:1.3.1-accountingservice
+          name: accounting-service
+          resources:
+            limits:
+              memory: "20971520"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: adservice
+  name: adservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: adservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: adservice
+    spec:
+      containers:
+        - env:
+            - name: AD_SERVICE_PORT
+              value: "9555"
+            - name: FEATURE_FLAG_GRPC_SERVICE_ADDR
+              value: featureflagservice:50053
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: adservice
+          image: ghcr.io/open-telemetry/demo:1.3.1-adservice
+          name: ad-service
+          ports:
+            - containerPort: 9555
+          resources:
+            limits:
+              memory: "314572800"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: adservice
+  name: adservice
+spec:
+  ports:
+    - name: "9555"
+      port: 9555
+      targetPort: 9555
+  selector:
+    io.kompose.service: adservice
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: cartservice
+  name: cartservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: cartservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: cartservice
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_URLS
+              value: http://*:7070
+            - name: CART_SERVICE_PORT
+              value: "7070"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: cartservice
+            - name: REDIS_ADDR
+              value: redis-cart:6379
+          image: ghcr.io/open-telemetry/demo:1.3.1-cartservice
+          name: cart-service
+          ports:
+            - containerPort: 7070
+          resources:
+            limits:
+              memory: "167772160"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: cartservice
+  name: cartservice
+spec:
+  ports:
+    - name: "7070"
+      port: 7070
+      targetPort: 7070
+  selector:
+    io.kompose.service: cartservice
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: checkoutservice
+  name: checkoutservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: checkoutservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: checkoutservice
+    spec:
+      containers:
+        - env:
+            - name: CART_SERVICE_ADDR
+              value: cartservice:7070
+            - name: CHECKOUT_SERVICE_PORT
+              value: "5050"
+            - name: CURRENCY_SERVICE_ADDR
+              value: currencyservice:7001
+            - name: EMAIL_SERVICE_ADDR
+              value: http://emailservice:6060
+            - name: KAFKA_SERVICE_ADDR
+              value: kafka:9092
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: checkoutservice
+            - name: PAYMENT_SERVICE_ADDR
+              value: paymentservice:50051
+            - name: PRODUCT_CATALOG_SERVICE_ADDR
+              value: productcatalogservice:3550
+            - name: SHIPPING_SERVICE_ADDR
+              value: shippingservice:50050
+          image: ghcr.io/open-telemetry/demo:1.3.1-checkoutservice
+          name: checkout-service
+          ports:
+            - containerPort: 5050
+          resources:
+            limits:
+              memory: "20971520"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: checkoutservice
+  name: checkoutservice
+spec:
+  ports:
+    - name: "5050"
+      port: 5050
+      targetPort: 5050
+  selector:
+    io.kompose.service: checkoutservice
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: currencyservice
+  name: currencyservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: currencyservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: currencyservice
+    spec:
+      containers:
+        - env:
+            - name: CURRENCY_SERVICE_PORT
+              value: "7001"
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo,service.name=currencyservice
+          image: ghcr.io/open-telemetry/demo:1.3.1-currencyservice
+          name: currency-service
+          ports:
+            - containerPort: 7001
+          resources:
+            limits:
+              memory: "20971520"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: currencyservice
+  name: currencyservice
+spec:
+  ports:
+    - name: "7001"
+      port: 7001
+      targetPort: 7001
+  selector:
+    io.kompose.service: currencyservice
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: emailservice
+  name: emailservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: emailservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: emailservice
+    spec:
+      containers:
+        - env:
+            - name: APP_ENV
+              value: production
+            - name: EMAIL_SERVICE_PORT
+              value: "6060"
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4318/v1/traces
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: emailservice
+          image: ghcr.io/open-telemetry/demo:1.3.1-emailservice
+          name: email-service
+          ports:
+            - containerPort: 6060
+          resources:
+            limits:
+              memory: "104857600"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: emailservice
+  name: emailservice
+spec:
+  ports:
+    - name: "6060"
+      port: 6060
+      targetPort: 6060
+  selector:
+    io.kompose.service: emailservice
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: featureflagservice
+  name: featureflagservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: featureflagservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: featureflagservice
+    spec:
+      containers:
+        - env:
+            - name: DATABASE_URL
+              value: ecto://ffs:ffs@ffs_postgres:5432/ffs
+            - name: FEATURE_FLAG_GRPC_SERVICE_PORT
+              value: "50053"
+            - name: FEATURE_FLAG_SERVICE_PATH_ROOT
+              value: '"/feature"'
+            - name: FEATURE_FLAG_SERVICE_PORT
+              value: "8081"
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_TRACES_PROTOCOL
+              value: grpc
+            - name: OTEL_SERVICE_NAME
+              value: featureflagservice
+          image: ghcr.io/open-telemetry/demo:1.3.1-featureflagservice
+          livenessProbe:
+            exec:
+              command:
+                - curl
+                - -H
+                - 'baggage: synthetic_request=true'
+                - -f
+                - http://localhost:8081
+          name: feature-flag-service
+          ports:
+            - containerPort: 8081
+            - containerPort: 50053
+          resources:
+            limits:
+              memory: "183500800"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: featureflagservice
+  name: featureflagservice
+spec:
+  ports:
+    - name: "8081"
+      port: 8081
+      targetPort: 8081
+    - name: "50053"
+      port: 50053
+      targetPort: 50053
+  selector:
+    io.kompose.service: featureflagservice
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: ffs-postgres
+  name: ffs-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ffs-postgres
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: ffs-postgres
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: ffs
+            - name: POSTGRES_PASSWORD
+              value: ffs
+            - name: POSTGRES_USER
+              value: ffs
+          image: postgres:14
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready -d ffs -U ffs
+            failureThreshold: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+          name: postgres
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              memory: "125829120"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: ffs-postgres
+  name: ffs_postgres
+spec:
+  ports:
+    - name: "5432"
+      port: 5432
+      targetPort: 5432
+  selector:
+    io.kompose.service: ffs-postgres
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: frauddetectionservice
+  name: frauddetectionservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frauddetectionservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: frauddetectionservice
+    spec:
+      containers:
+        - env:
+            - name: KAFKA_SERVICE_ADDR
+              value: kafka:9092
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: frauddetectionservice
+          image: ghcr.io/open-telemetry/demo:1.3.1-frauddetectionservice
+          name: frauddetection-service
+          resources:
+            limits:
+              memory: "209715200"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: frontend
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontend
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: frontend
+    spec:
+      containers:
+        - env:
+            - name: AD_SERVICE_ADDR
+              value: adservice:9555
+            - name: CART_SERVICE_ADDR
+              value: cartservice:7070
+            - name: CHECKOUT_SERVICE_ADDR
+              value: checkoutservice:5050
+            - name: CURRENCY_SERVICE_ADDR
+              value: currencyservice:7001
+            - name: ENV_PLATFORM
+              value: local
+            - name: FRONTEND_ADDR
+              value: frontend:8080
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: frontend
+            - name: PORT
+              value: "8080"
+            - name: PRODUCT_CATALOG_SERVICE_ADDR
+              value: productcatalogservice:3550
+            - name: PUBLIC_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://localhost:4318/v1/traces
+            - name: RECOMMENDATION_SERVICE_ADDR
+              value: recommendationservice:9001
+            - name: SHIPPING_SERVICE_ADDR
+              value: shippingservice:50050
+            - name: WEB_OTEL_SERVICE_NAME
+              value: frontend-web
+          image: ghcr.io/open-telemetry/demo:1.3.1-frontend
+          name: frontend
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: "209715200"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: frontendproxy
+  name: frontendproxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendproxy
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: frontendproxy
+    spec:
+      containers:
+        - env:
+            - name: ENVOY_PORT
+              value: "8080"
+            - name: FEATURE_FLAG_SERVICE_HOST
+              value: feature-flag-service
+            - name: FEATURE_FLAG_SERVICE_PORT
+              value: "8081"
+            - name: FRONTEND_HOST
+              value: frontend
+            - name: FRONTEND_PORT
+              value: "8080"
+            - name: GRAFANA_SERVICE_HOST
+              value: grafana
+            - name: GRAFANA_SERVICE_PORT
+              value: "3000"
+            - name: JAEGER_SERVICE_HOST
+              value: jaeger
+            - name: JAEGER_SERVICE_PORT
+              value: "16686"
+            - name: LOCUST_WEB_HOST
+              value: loadgenerator
+            - name: LOCUST_WEB_PORT
+              value: "8089"
+            - name: OTEL_COLLECTOR_HOST
+              value: otelcol
+            - name: OTEL_COLLECTOR_PORT
+              value: "4317"
+          image: ghcr.io/open-telemetry/demo:1.3.1-frontendproxy
+          name: frontend-proxy
+          ports:
+            - containerPort: 8080
+            - containerPort: 10000
+          resources:
+            limits:
+              memory: "52428800"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: frontendproxy
+  name: frontendproxy
+spec:
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+    - name: "10000"
+      port: 10000
+      targetPort: 10000
+  selector:
+    io.kompose.service: frontendproxy
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: frontend
+  name: frontend
+spec:
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+  selector:
+    io.kompose.service: frontend
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: otel
+  labels:
+    io.kompose.service: grafana-claim0
+  name: grafana-claim0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: otel
+  labels:
+    io.kompose.service: grafana-claim1
+  name: grafana-claim1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: grafana
+  name: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: grafana
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: grafana
+    spec:
+      containers:
+        - image: grafana/grafana:9.1.0
+          name: grafana
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              memory: "78643200"
+          volumeMounts:
+            - mountPath: /etc/grafana/grafana.ini
+              name: grafana-claim0
+            - mountPath: /etc/grafana/provisioning
+              name: grafana-claim1
+      restartPolicy: Always
+      volumes:
+        - name: grafana-claim0
+          persistentVolumeClaim:
+            claimName: grafana-claim0
+        - name: grafana-claim1
+          persistentVolumeClaim:
+            claimName: grafana-claim1
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: grafana
+  name: grafana
+spec:
+  ports:
+    - name: "3000"
+      port: 3000
+      targetPort: 3000
+  selector:
+    io.kompose.service: grafana
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: jaeger
+  name: jaeger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: jaeger
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: jaeger
+    spec:
+      containers:
+        - args:
+            - --memory.max-traces
+            - "10000"
+            - --query.base-path
+            - /jaeger/ui
+            - --prometheus.server-url
+            - http://prometheus:9090
+          env:
+            - name: COLLECTOR_OTLP_ENABLED
+              value: "true"
+            - name: METRICS_STORAGE_TYPE
+              value: prometheus
+          image: jaegertracing/all-in-one
+          name: jaeger
+          ports:
+            - containerPort: 16686
+            - containerPort: 4317
+          resources:
+            limits:
+              memory: "314572800"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: jaeger
+  name: jaeger
+spec:
+  ports:
+    - name: "16686"
+      port: 16686
+      targetPort: 16686
+    - name: "4317"
+      port: 4317
+      targetPort: 4317
+  selector:
+    io.kompose.service: jaeger
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: kafka
+  name: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: kafka
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: kafka
+    spec:
+      containers:
+        - env:
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: PLAINTEXT://kafka:9092
+            - name: KAFKA_HEAP_OPTS
+              value: -Xmx400m -Xms400m
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: kafka
+          image: ghcr.io/open-telemetry/demo:1.3.1-kafka
+          livenessProbe:
+            exec:
+              command:
+                - nc -z kafka 9092
+            failureThreshold: 10
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+          name: kafka
+          ports:
+            - containerPort: 9092
+          resources:
+            limits:
+              memory: "786432e3"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: kafka
+  name: kafka
+spec:
+  ports:
+    - name: "9092"
+      port: 9092
+      targetPort: 9092
+  selector:
+    io.kompose.service: kafka
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: loadgenerator
+  name: loadgenerator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: loadgenerator
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: loadgenerator
+    spec:
+      containers:
+        - env:
+            - name: LOCUST_AUTOSTART
+              value: "true"
+            - name: LOCUST_HEADLESS
+              value: "false"
+            - name: LOCUST_HOST
+              value: http://frontend:8080
+            - name: LOCUST_USERS
+              value: "10"
+            - name: LOCUST_WEB_PORT
+              value: "8089"
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4318/v1/traces
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: loadgenerator
+            - name: PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION
+              value: python
+          image: ghcr.io/open-telemetry/demo:1.3.1-loadgenerator
+          name: load-generator
+          ports:
+            - containerPort: 8089
+          resources:
+            limits:
+              memory: "125829120"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: loadgenerator
+  name: loadgenerator
+spec:
+  ports:
+    - name: "8089"
+      port: 8089
+      targetPort: 8089
+  selector:
+    io.kompose.service: loadgenerator
+status:
+  loadBalancer: {}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  namespace: otel
+  name: opentelemetry-demo
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/opentelemetry-demo: "true"
+  podSelector:
+    matchLabels:
+      io.kompose.network/opentelemetry-demo: "true"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: otel
+  labels:
+    io.kompose.service: otelcol-claim0
+  name: otelcol-claim0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: otel
+  labels:
+    io.kompose.service: otelcol-claim1
+  name: otelcol-claim1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: otelcol
+  name: otelcol
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: otelcol
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: otelcol
+    spec:
+      containers:
+        - args:
+            - --config=/etc/otelcol-config.yml
+            - --config=/etc/otelcol-config-extras.yml
+          image: otel/opentelemetry-collector-contrib:0.70.0
+          name: otel-col
+          ports:
+            - containerPort: 4317
+            - containerPort: 4318
+            - containerPort: 9464
+            - containerPort: 8888
+          resources:
+            limits:
+              memory: "131072e3"
+          volumeMounts:
+            - mountPath: /etc/otelcol-config.yml
+              name: otelcol-claim0
+            - mountPath: /etc/otelcol-config-extras.yml
+              name: otelcol-claim1
+      restartPolicy: Always
+      volumes:
+        - name: otelcol-claim0
+          persistentVolumeClaim:
+            claimName: otelcol-claim0
+        - name: otelcol-claim1
+          persistentVolumeClaim:
+            claimName: otelcol-claim1
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: otelcol
+  name: otelcol
+spec:
+  ports:
+    - name: "4317"
+      port: 4317
+      targetPort: 4317
+    - name: "4318"
+      port: 4318
+      targetPort: 4318
+    - name: "9464"
+      port: 9464
+      targetPort: 9464
+    - name: "8888"
+      port: 8888
+      targetPort: 8888
+  selector:
+    io.kompose.service: otelcol
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: paymentservice
+  name: paymentservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: paymentservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: paymentservice
+    spec:
+      containers:
+        - env:
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: paymentservice
+            - name: PAYMENT_SERVICE_PORT
+              value: "50051"
+          image: ghcr.io/open-telemetry/demo:1.3.1-paymentservice
+          name: payment-service
+          ports:
+            - containerPort: 50051
+          resources:
+            limits:
+              memory: "125829120"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: paymentservice
+  name: paymentservice
+spec:
+  ports:
+    - name: "50051"
+      port: 50051
+      targetPort: 50051
+  selector:
+    io.kompose.service: paymentservice
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: productcatalogservice
+  name: productcatalogservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: productcatalogservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: productcatalogservice
+    spec:
+      containers:
+        - env:
+            - name: FEATURE_FLAG_GRPC_SERVICE_ADDR
+              value: featureflagservice:50053
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: productcatalogservice
+            - name: PRODUCT_CATALOG_SERVICE_PORT
+              value: "3550"
+          image: ghcr.io/open-telemetry/demo:1.3.1-productcatalogservice
+          name: product-catalog-service
+          ports:
+            - containerPort: 3550
+          resources:
+            limits:
+              memory: "20971520"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: productcatalogservice
+  name: productcatalogservice
+spec:
+  ports:
+    - name: "3550"
+      port: 3550
+      targetPort: 3550
+  selector:
+    io.kompose.service: productcatalogservice
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: otel
+  labels:
+    io.kompose.service: prometheus-claim0
+  name: prometheus-claim0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: prometheus
+  name: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: prometheus
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: prometheus
+    spec:
+      containers:
+        - args:
+            - --web.console.templates=/etc/prometheus/consoles
+            - --web.console.libraries=/etc/prometheus/console_libraries
+            - --storage.tsdb.retention.time=1h
+            - --config.file=/etc/prometheus/prometheus-config.yaml
+            - --storage.tsdb.path=/prometheus
+            - --web.enable-lifecycle
+            - --web.route-prefix=/
+            - --enable-feature=exemplar-storage
+          image: quay.io/prometheus/prometheus:v2.34.0
+          name: prometheus
+          ports:
+            - containerPort: 9090
+          resources:
+            limits:
+              memory: "314572800"
+          volumeMounts:
+            - mountPath: /etc/prometheus/prometheus-config.yaml
+              name: prometheus-claim0
+      restartPolicy: Always
+      volumes:
+        - name: prometheus-claim0
+          persistentVolumeClaim:
+            claimName: prometheus-claim0
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: prometheus
+  name: prometheus
+spec:
+  ports:
+    - name: "9090"
+      port: 9090
+      targetPort: 9090
+  selector:
+    io.kompose.service: prometheus
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: quoteservice
+  name: quoteservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: quoteservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: quoteservice
+    spec:
+      containers:
+        - env:
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4318/v1/traces
+            - name: OTEL_PHP_AUTOLOAD_ENABLED
+              value: "true"
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: quoteservice
+            - name: QUOTE_SERVICE_PORT
+              value: "8090"
+          image: ghcr.io/open-telemetry/demo:1.3.1-quoteservice
+          name: quote-service
+          ports:
+            - containerPort: 8090
+          resources:
+            limits:
+              memory: "41943040"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: quoteservice
+  name: quoteservice
+spec:
+  ports:
+    - name: "8090"
+      port: 8090
+      targetPort: 8090
+  selector:
+    io.kompose.service: quoteservice
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: recommendationservice
+  name: recommendationservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: recommendationservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: recommendationservice
+    spec:
+      containers:
+        - env:
+            - name: FEATURE_FLAG_GRPC_SERVICE_ADDR
+              value: featureflagservice:50053
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: OTEL_METRICS_EXPORTER
+              value: otlp
+            - name: OTEL_PYTHON_LOG_CORRELATION
+              value: "true"
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: recommendationservice
+            - name: OTEL_TRACES_EXPORTER
+              value: otlp
+            - name: PRODUCT_CATALOG_SERVICE_ADDR
+              value: productcatalogservice:3550
+            - name: PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION
+              value: python
+            - name: RECOMMENDATION_SERVICE_PORT
+              value: "9001"
+          image: ghcr.io/open-telemetry/demo:1.3.1-recommendationservice
+          name: recommendation-service
+          ports:
+            - containerPort: 9001
+          resources:
+            limits:
+              memory: "524288e3"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: recommendationservice
+  name: recommendationservice
+spec:
+  ports:
+    - name: "9001"
+      port: 9001
+      targetPort: 9001
+  selector:
+    io.kompose.service: recommendationservice
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: redis-cart
+  name: redis-cart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: redis-cart
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: redis-cart
+    spec:
+      containers:
+        - image: redis:alpine
+          name: redis-cart
+          ports:
+            - containerPort: 6379
+          resources:
+            limits:
+              memory: "20971520"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: redis-cart
+  name: redis-cart
+spec:
+  ports:
+    - name: "6379"
+      port: 6379
+      targetPort: 6379
+  selector:
+    io.kompose.service: redis-cart
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: shippingservice
+  name: shippingservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: shippingservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      namespace: otel
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: shippingservice
+    spec:
+      containers:
+        - env:
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: shippingservice
+            - name: QUOTE_SERVICE_ADDR
+              value: http://quoteservice:8090
+            - name: SHIPPING_SERVICE_PORT
+              value: "50050"
+          image: ghcr.io/open-telemetry/demo:1.3.1-shippingservice
+          name: shipping-service
+          ports:
+            - containerPort: 50050
+          resources:
+            limits:
+              memory: "20971520"
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  namespace: otel
+  labels:
+    io.kompose.service: shippingservice
+  name: shippingservice
+spec:
+  ports:
+    - name: "50050"
+      port: 50050
+      targetPort: 50050
+  selector:
+    io.kompose.service: shippingservice
+status:
+  loadBalancer: {}

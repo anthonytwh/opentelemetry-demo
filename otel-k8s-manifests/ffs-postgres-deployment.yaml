@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ffs-postgres
+  name: ffs-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ffs-postgres
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: ffs-postgres
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: ffs
+            - name: POSTGRES_PASSWORD
+              value: ffs
+            - name: POSTGRES_USER
+              value: ffs
+          image: postgres:14
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready -d ffs -U ffs
+            failureThreshold: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+          name: postgres
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              memory: "125829120"
+      restartPolicy: Always
+status: {}

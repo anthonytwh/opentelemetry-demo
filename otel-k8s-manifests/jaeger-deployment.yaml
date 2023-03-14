@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: jaeger
+  name: jaeger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: jaeger
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: jaeger
+    spec:
+      containers:
+        - args:
+            - --memory.max-traces
+            - "10000"
+            - --query.base-path
+            - /jaeger/ui
+            - --prometheus.server-url
+            - http://prometheus:9090
+          env:
+            - name: COLLECTOR_OTLP_ENABLED
+              value: "true"
+            - name: METRICS_STORAGE_TYPE
+              value: prometheus
+          image: jaegertracing/all-in-one
+          name: jaeger
+          ports:
+            - containerPort: 16686
+            - containerPort: 4317
+          resources:
+            limits:
+              memory: "314572800"
+      restartPolicy: Always
+status: {}

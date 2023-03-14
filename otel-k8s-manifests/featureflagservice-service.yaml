@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: featureflagservice
+  name: featureflagservice
+spec:
+  ports:
+    - name: "8081"
+      port: 8081
+      targetPort: 8081
+    - name: "50053"
+      port: 50053
+      targetPort: 50053
+  selector:
+    io.kompose.service: featureflagservice
+status:
+  loadBalancer: {}

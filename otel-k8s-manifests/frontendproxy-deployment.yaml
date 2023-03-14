@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontendproxy
+  name: frontendproxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontendproxy
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: frontendproxy
+    spec:
+      containers:
+        - env:
+            - name: ENVOY_PORT
+              value: "8080"
+            - name: FEATURE_FLAG_SERVICE_HOST
+              value: feature-flag-service
+            - name: FEATURE_FLAG_SERVICE_PORT
+              value: "8081"
+            - name: FRONTEND_HOST
+              value: frontend
+            - name: FRONTEND_PORT
+              value: "8080"
+            - name: GRAFANA_SERVICE_HOST
+              value: grafana
+            - name: GRAFANA_SERVICE_PORT
+              value: "3000"
+            - name: JAEGER_SERVICE_HOST
+              value: jaeger
+            - name: JAEGER_SERVICE_PORT
+              value: "16686"
+            - name: LOCUST_WEB_HOST
+              value: loadgenerator
+            - name: LOCUST_WEB_PORT
+              value: "8089"
+            - name: OTEL_COLLECTOR_HOST
+              value: otelcol
+            - name: OTEL_COLLECTOR_PORT
+              value: "4317"
+          image: ghcr.io/open-telemetry/demo:1.3.1-frontendproxy
+          name: frontend-proxy
+          ports:
+            - containerPort: 8080
+            - containerPort: 10000
+          resources:
+            limits:
+              memory: "52428800"
+      restartPolicy: Always
+status: {}

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: redis-cart
+  name: redis-cart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: redis-cart
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: redis-cart
+    spec:
+      containers:
+        - image: redis:alpine
+          name: redis-cart
+          ports:
+            - containerPort: 6379
+          resources:
+            limits:
+              memory: "20971520"
+      restartPolicy: Always
+status: {}

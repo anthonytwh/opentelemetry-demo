@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: kafka
+  name: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: kafka
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+        kompose.version: 1.28.0 (c4137012e)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/opentelemetry-demo: "true"
+        io.kompose.service: kafka
+    spec:
+      containers:
+        - env:
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: PLAINTEXT://kafka:9092
+            - name: KAFKA_HEAP_OPTS
+              value: -Xmx400m -Xms400m
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://otelcol:4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.namespace=opentelemetry-demo
+            - name: OTEL_SERVICE_NAME
+              value: kafka
+          image: ghcr.io/open-telemetry/demo:1.3.1-kafka
+          livenessProbe:
+            exec:
+              command:
+                - nc -z kafka 9092
+            failureThreshold: 10
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+          name: kafka
+          ports:
+            - containerPort: 9092
+          resources:
+            limits:
+              memory: "786432e3"
+      restartPolicy: Always
+status: {}

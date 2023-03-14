@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yml -o otel-k8s-manifests/
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: emailservice
+  name: emailservice
+spec:
+  ports:
+    - name: "6060"
+      port: 6060
+      targetPort: 6060
+  selector:
+    io.kompose.service: emailservice
+status:
+  loadBalancer: {}
