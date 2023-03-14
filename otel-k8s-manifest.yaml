@@ -974,7 +974,6 @@ metadata:
     io.kompose.service: kafka
   name: kafka
 spec:
-  hostname: kafka
   replicas: 1
   selector:
     matchLabels:
@@ -990,6 +989,7 @@ spec:
         io.kompose.network/opentelemetry-demo: "true"
         io.kompose.service: kafka
     spec:
+      hostname: kafka
       containers:
         - env:
             - name: KAFKA_ADVERTISED_LISTENERS
