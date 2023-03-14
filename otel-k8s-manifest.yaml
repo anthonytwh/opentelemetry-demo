@@ -440,7 +440,7 @@ spec:
       containers:
         - env:
             - name: DATABASE_URL
-              value: ecto://ffs:ffs@ffs_postgres:5432/ffs
+              value: ecto://ffs:ffs@ffs-postgres:5432/ffs
             - name: FEATURE_FLAG_GRPC_SERVICE_PORT
               value: "50053"
             - name: FEATURE_FLAG_SERVICE_PATH_ROOT
@@ -991,8 +991,6 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 10
           name: kafka
-          ports:
-            - containerPort: 9092
           resources:
             limits:
               memory: "786432e3"
