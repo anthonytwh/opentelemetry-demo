@@ -555,7 +555,7 @@ metadata:
   namespace: otel
   labels:
     io.kompose.service: ffs-postgres
-  name: ffs_postgres
+  name: ffs-postgres
 spec:
   ports:
     - name: "5432"
