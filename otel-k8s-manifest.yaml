@@ -456,14 +456,7 @@ spec:
           image: ghcr.io/open-telemetry/demo:1.3.1-featureflagservice
           livenessProbe:
             exec:
-              command:
-                - sh
-                - -c
-                - curl
-                - -H
-                - 'baggage: synthetic_request=true'
-                - -f
-                - http://localhost:8081
+              command: ['/bin/sh', '-c', 'curl', '-H', 'baggage: synthetic_request=true', '-f', 'http://localhost:8081']
           name: feature-flag-service
           ports:
             - containerPort: 8081
