@@ -34,7 +34,7 @@ spec:
       containers:
         - env:
             - name: KAFKA_SERVICE_ADDR
-              value: kafka-headless
+              value: kafka-headless:9092
             - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
               value: http://otelcol:4317
             - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
@@ -232,7 +232,7 @@ spec:
             - name: EMAIL_SERVICE_ADDR
               value: http://emailservice:6060
             - name: KAFKA_SERVICE_ADDR
-              value: kafka-headless
+              value: kafka-headless:9092
             - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
               value: http://otelcol:4317
             - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
@@ -599,7 +599,7 @@ spec:
       containers:
         - env:
             - name: KAFKA_SERVICE_ADDR
-              value: kafka-headless
+              value: kafka-headless:9092
             - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
               value: http://otelcol:4317
             - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
@@ -996,7 +996,7 @@ spec:
       containers:
         - env:
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: PLAINTEXT://kafka:9092
+              value: PLAINTEXT://kafka-headless:9092
             - name: KAFKA_HEAP_OPTS
               value: -Xmx400m -Xms400m
             - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
